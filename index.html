@@ -174,6 +174,7 @@ label{display:grid;gap:4px;font-size:.85rem;font-weight:800}
 input,textarea{font:inherit;font-weight:400;font-size:1rem;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
 textarea{min-height:70px;resize:vertical}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.addr{display:grid;gap:10px}
 .d-foot{padding:16px 20px 20px;border-top:2px dashed var(--line);display:grid;gap:10px}
 .tot{display:flex;justify-content:space-between;font-weight:800}
 .tot.small{font-weight:600;color:var(--muted);font-size:.92rem}
@@ -338,7 +339,13 @@ textarea{min-height:70px;resize:vertical}
         <label for="c-phone">Mobile<input id="c-phone" type="tel" autocomplete="tel" required></label>
         <label for="c-email">Email<input id="c-email" type="email" autocomplete="email"></label>
       </div>
-      <label for="c-address" id="addr-wrap" hidden>Delivery address<input id="c-address" autocomplete="street-address" placeholder="Street, city, ZIP"></label>
+      <div id="addr-wrap" class="addr" hidden>
+        <label for="c-address">Delivery street address<input id="c-address" autocomplete="address-line1" placeholder="123 Main St"></label>
+        <div class="row2">
+          <label for="c-city">City<input id="c-city" autocomplete="address-level2" value="Henderson"></label>
+          <label for="c-zip">ZIP<input id="c-zip" autocomplete="postal-code" inputmode="numeric" maxlength="5" placeholder="75654"></label>
+        </div>
+      </div>
       <label for="c-notes">Notes (optional)<textarea id="c-notes" placeholder="Gift message, gate code, allergy questions…"></textarea></label>
     </fieldset>
     <div id="fallback" hidden>
@@ -355,7 +362,7 @@ textarea{min-height:70px;resize:vertical}
     <div class="tot small" id="t-del-row" hidden><span>Delivery</span><span class="mono" id="t-del">$0</span></div>
     <div class="tot"><span>Total</span><span class="mono" id="t-total">$0</span></div>
     <button class="btn btn-main" id="checkout" type="button">Checkout with Square</button>
-    <p class="note">Sales tax, if any, is added at Square checkout.</p>
+    <p class="note">Your details carry over to Square, so you'll just add payment. Sales tax is added at checkout.</p>
   </div>
 </aside>
 
@@ -590,7 +597,7 @@ function orderText(){
       : `${l.qty} x ${flavor(l.id).name}, single = ${money(linePrice(l))}`),
     T.del?"Delivery: "+money(T.del):"","Total: "+money(T.total),
     "Name: "+$("#c-name").value,"Phone: "+$("#c-phone").value,
-    mode==="delivery"?"Address: "+$("#c-address").value:"", $("#c-notes").value?"Notes: "+$("#c-notes").value:""].filter(Boolean).join("\n");
+    mode==="delivery"?"Address: "+[$("#c-address").value,$("#c-city").value,"TX "+$("#c-zip").value].join(", "):"", $("#c-notes").value?"Notes: "+$("#c-notes").value:""].filter(Boolean).join("\n");
 }
 function renderCart(){
   const n=cart.reduce((a,l)=>a+(l.type==="box"?BOXES[l.size].count:1)*l.qty,0);
@@ -633,9 +640,9 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")closeCart();});
 
 $("#checkout").onclick=async()=>{
   const err=$("#err"); err.hidden=true;
-  const name=$("#c-name").value.trim(), phone=$("#c-phone").value.trim(), addr=$("#c-address").value.trim();
+  const name=$("#c-name").value.trim(), phone=$("#c-phone").value.trim(), addr=$("#c-address").value.trim(), city=$("#c-city").value.trim(), zip=$("#c-zip").value.trim();
   if(!name||!phone){err.textContent="Add your name and mobile number so we can text you about your drop.";err.hidden=false;return;}
-  if(mode==="delivery"&&!addr){err.textContent="Add a delivery address, or switch to pickup.";err.hidden=false;return;}
+  if(mode==="delivery"&&(!addr||!city||!/^\d{5}$/.test(zip))){err.textContent="Add your street, city, and 5-digit ZIP for delivery, or switch to pickup.";err.hidden=false;return;}
   if(!CONFIG.checkoutEndpoint){
     $("#summary").textContent=orderText(); $("#fallback").hidden=false; $("#fallback").scrollIntoView({block:"nearest"}); return;
   }
@@ -644,7 +651,7 @@ $("#checkout").onclick=async()=>{
     const r=await fetch(CONFIG.checkoutEndpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
       singles:cart.filter(l=>l.type==="single").map(l=>({flavor:l.id,qty:l.qty})),
       boxes:cart.filter(l=>l.type==="box").map(l=>({size:BOXES[l.size].key,qty:l.qty,flavors:l.flavors})),
-      fulfillment:mode,name,phone,email:$("#c-email").value.trim(),address:addr,notes:$("#c-notes").value.trim()})});
+      fulfillment:mode,name,phone,email:$("#c-email").value.trim(),address:mode==="delivery"?{street:addr,city,zip}:null,notes:$("#c-notes").value.trim()})});
     const j=await r.json();
     if(!r.ok||!j.url) throw new Error(j.error||"Checkout failed");
     const a=$("#paylink"); a.href=j.url; a.hidden=false; a.textContent="Pay "+money(totals().total)+" with Square →";
@@ -661,7 +668,9 @@ $("#copy").onclick=async()=>{
   setTimeout(()=>b.textContent="Copy order",1800);
 };
 
+if(/[?&]thanks=1/.test(location.search)){cart=[];save();}
 renderMenu(); renderBuilder(); renderCart(); renderWindow();
+if(/[?&]thanks=1/.test(location.search)){const t=$("#toast");t.textContent="Order placed! Watch for a text from us about your Saturday drop.";t.hidden=false;setTimeout(()=>t.hidden=true,7000);}
 setInterval(()=>{W.secs>0?($("#cd-clock").textContent=fmtCountdown(--W.secs)):renderWindow();},1000);
 setInterval(renderWindow,60000);
 </script>
