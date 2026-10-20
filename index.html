@@ -126,7 +126,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .contains{font-size:.8rem;color:var(--muted)}
 .contains b{color:var(--ink)}
 .sizes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:auto}
-.size{border:2px solid var(--line);background:var(--bg);border-radius:12px;padding:7px 2px;text-align:center;line-height:1.15}
+.size-unused{border:2px solid var(--line);background:var(--bg);border-radius:12px;padding:7px 2px;text-align:center;line-height:1.15}
 .size span{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
 .size strong{font-family:var(--mono);font-size:.98rem}
 .size[aria-pressed="true"]{border-color:var(--magenta);background:color-mix(in srgb,var(--magenta) 12%,var(--surface))}
@@ -183,6 +183,56 @@ textarea{min-height:70px;resize:vertical}
 .summary{font-family:var(--mono);font-size:.8rem;white-space:pre-wrap;background:var(--bg);border-radius:12px;padding:12px;max-height:180px;overflow:auto}
 .err{color:var(--magenta);font-weight:800;font-size:.9rem}
 
+
+/* ---------- Box builder ---------- */
+.build .wrap{padding-block:20px 50px}
+.builder{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:28px;align-items:start}
+@media (max-width:860px){.builder{grid-template-columns:minmax(0,1fr)}}
+.step{font-weight:800;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--magenta);margin:4px 0 10px}
+.bsizes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:22px}
+.bsize{border:2px solid var(--line);background:var(--surface);border-radius:18px;padding:14px 8px;display:grid;justify-items:center;gap:2px;text-align:center}
+.bsize .bcount{font-size:1.9rem;line-height:1;font-family:var(--display);font-weight:400}
+.bsize .blabel{font-weight:800;font-size:.85rem}
+.bsize strong{font-size:1.1rem;color:var(--magenta)}
+.bsize small{font-size:.72rem;color:var(--muted)}
+.bsize[aria-pressed="true"]{border-color:var(--magenta);background:color-mix(in srgb,var(--magenta) 10%,var(--surface));box-shadow:0 4px 0 var(--magenta)}
+.flavor-picks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:520px){.flavor-picks{grid-template-columns:minmax(0,1fr)}}
+.fpick{display:flex;align-items:center;gap:10px;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:8px 10px}
+.fpick.on{border-color:var(--teal)}
+.fname{font-weight:800;flex:1;min-width:0;line-height:1.2}
+.fthumb,.sthumb{position:relative;display:block;border-radius:50%;overflow:hidden;flex:none;background:radial-gradient(circle at 35% 35%,var(--c1) 0 14%,transparent 15%),radial-gradient(circle at 65% 60%,var(--c1) 0 11%,transparent 12%),var(--c0)}
+.fthumb{width:46px;height:46px}
+.fthumb img,.sthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.stepper button:disabled{opacity:.3;cursor:not-allowed}
+.boxview{background:color-mix(in srgb,var(--magenta) 14%,var(--surface));border-radius:var(--r);padding:20px;display:grid;gap:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 80px)}
+@media (max-width:860px){.boxview{position:static}}
+.lid{font-family:var(--display);font-size:1.5rem;color:var(--magenta)}
+.slots{display:grid;gap:10px;background:var(--surface);border-radius:16px;padding:14px}
+.slots.n3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.slots.n6{grid-template-columns:repeat(3,minmax(0,1fr))}
+.slots.n12{grid-template-columns:repeat(4,minmax(0,1fr))}
+.slot{aspect-ratio:1;max-width:100%;border-radius:50%;border:2px dashed var(--line);background:var(--bg);display:block;padding:0}
+.slot.full{border:0;background:none;cursor:pointer;animation:pop .25s ease}
+.slot.full .sthumb{width:100%;height:100%}
+.slot.full:hover{transform:scale(.94)}
+@keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.06)}100%{transform:scale(1)}}
+.meter{height:10px;border-radius:999px;background:var(--surface);overflow:hidden}
+.meter i{display:block;height:100%;width:var(--p,0%);background:var(--teal);transition:width .2s ease}
+.progress{font-weight:800}
+.fillcount{color:var(--ink);letter-spacing:0;margin-left:4px}
+.b-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.b-actions .btn{padding:9px 16px;font-size:.92rem}
+.linkbtn{background:none;border:0;color:var(--magenta);font-weight:800;text-decoration:underline}
+.linkbtn:disabled{opacity:.35;cursor:not-allowed}
+#box-add{width:100%}
+.card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}
+.card-actions .btn{padding:10px 8px;font-size:.92rem}
+.lctl{grid-column:2;justify-self:end}
+.stepper.sm button{width:30px;height:30px;font-size:1rem}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:999px;font-weight:800;box-shadow:var(--shadow);max-width:calc(100% - 32px);text-align:center}
+.toast a{color:var(--teal)}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -190,7 +240,7 @@ textarea{min-height:70px;resize:vertical}
   <div class="wrap">
     <a class="logo" href="#top">Snackable<span>Treats</span></a>
     <div class="status" id="status" role="status"><i></i><span id="status-text">Checking…</span></div>
-    <button class="cart-btn" id="open-cart" aria-label="Open your order"><span class="cb-word">Your box</span><span aria-hidden="true">🍪</span> <b id="cart-count">0</b></button>
+    <button class="cart-btn" id="open-cart" aria-label="Open your order"><span class="cb-word">Your order</span><span aria-hidden="true">🍪</span> <b id="cart-count">0</b></button>
   </div>
 </header>
 
@@ -200,10 +250,10 @@ textarea{min-height:70px;resize:vertical}
       <div>
         <p class="kicker">Henderson, TX · Small batch · Weekly drop</p>
         <h1>Order by Thursday. <em>Cookies on Saturday.</em></h1>
-        <p class="lead">Six fresh flavors, baked in small batches for one big Saturday drop. Grab them in Henderson or get them delivered.</p>
+        <p class="lead">Six flavors. Build a box of 3, 6, or 12 and mix them however you like. Pick up in Henderson or get it delivered Saturday.</p>
         <div class="hero-ctas">
-          <a class="btn btn-main" href="#menu">Build your box</a>
-          <a class="btn btn-ghost" href="#how">How it works</a>
+          <a class="btn btn-main" href="#build">Build your box</a>
+          <a class="btn btn-ghost" href="#menu">See the flavors</a>
         </div>
       </div>
 
@@ -217,11 +267,36 @@ textarea{min-height:70px;resize:vertical}
     </div>
   </section>
 
+  <section class="build gutter" id="build">
+    <div class="wrap">
+      <div class="menu-head">
+        <h2>Build your box</h2>
+        <p>Pick a size, then fill it with any mix you want. Two of these, one of those. Your call.</p>
+      </div>
+      <div class="builder" id="builder">
+        <div>
+          <p class="step">1. Pick a size</p>
+          <div class="bsizes" id="box-sizes" role="group" aria-label="Box size"></div>
+          <p class="step">2. Fill it up <span class="fillcount mono" id="fill-count"></span></p>
+          <div class="flavor-picks" id="flavor-picks"></div>
+        </div>
+        <div class="boxview">
+          <div class="lid">Your box</div>
+          <div class="slots" id="slots"></div>
+          <div class="meter" id="box-meter"><i></i></div>
+          <p class="progress" id="box-progress" aria-live="polite"></p>
+          <div class="b-actions"><button type="button" class="btn btn-ghost" id="box-fill">Fill the rest for me</button><button type="button" class="linkbtn" id="box-clear">Clear</button></div>
+          <button type="button" class="btn btn-main" id="box-add">Add box</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="menu gutter" id="menu">
     <div class="wrap">
       <div class="menu-head">
         <h2>The lineup</h2>
-        <p>Every cookie comes in four sizes. Pick a flavor, pick a size, toss it in your box. Mix and match as much as you want.</p>
+        <p>Grab one as a single, or tap Add to box to drop it into your box.</p>
       </div>
       <div class="grid" id="grid"></div>
     </div>
@@ -235,6 +310,7 @@ textarea{min-height:70px;resize:vertical}
     </div>
   </section>
 </main>
+<div class="toast" id="toast" role="status" hidden></div>
 
 <footer class="gutter">
   <div class="wrap">
@@ -247,7 +323,7 @@ textarea{min-height:70px;resize:vertical}
 
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" aria-label="Your order" aria-hidden="true">
-  <div class="d-head"><h2>Your box</h2><button class="x" id="close-cart" aria-label="Close">×</button></div>
+  <div class="d-head"><h2>Your order</h2><button class="x" id="close-cart" aria-label="Close">×</button></div>
   <div class="d-body">
     <div id="lines"></div>
     <div id="window-alert" class="alert" hidden></div>
@@ -373,8 +449,82 @@ function renderWindow(){
   updateCheckoutState();
 }
 
-/* ---------- Menu ---------- */
-const picked = {}; MENU.forEach(m=>picked[m.id]={size:3,qty:1});
+/* ---------- Boxes ---------- */
+const BOXES = [
+  {key:"three", label:"3-pack",     count:3,  price:12, vi:1},
+  {key:"half",  label:"Half dozen", count:6,  price:25, vi:2},
+  {key:"dozen", label:"Dozen",      count:12, price:35, vi:3}
+];
+const SINGLE_PRICE = 5;
+const flavor = id => MENU.find(m=>m.id===id);
+const thumb = (m,cls) => `<span class="${cls}" style="--c0:${m.c[0]};--c1:${m.c[1]}"><img src="${CONFIG.imageBase+m.img}" alt="" onerror="this.remove()"></span>`;
+
+/* builder state */
+const B = {size:1, picks:{}};
+const filled = () => Object.values(B.picks).reduce((a,n)=>a+n,0);
+const cap = () => BOXES[B.size].count;
+
+function renderBuilder(){
+  $("#box-sizes").innerHTML = BOXES.map((b,i)=>`
+    <button type="button" class="bsize" data-size="${i}" aria-pressed="${i===B.size}">
+      <span class="bcount mono">${b.count}</span><span class="blabel">${b.label}</span><strong class="mono">${money(b.price)}</strong>
+      <small>${money(+(b.price/b.count).toFixed(2))} a cookie</small>
+    </button>`).join("");
+  const order=[]; MENU.forEach(m=>{for(let k=0;k<(B.picks[m.id]||0);k++)order.push(m)});
+  $("#slots").className="slots n"+cap();
+  $("#slots").innerHTML = Array.from({length:cap()},(_,i)=> order[i]
+    ? `<button type="button" class="slot full" data-take="${order[i].id}" aria-label="Remove one ${esc(order[i].name)}">${thumb(order[i],"sthumb")}</button>`
+    : `<span class="slot" aria-hidden="true"></span>`).join("");
+  $("#flavor-picks").innerHTML = MENU.map(m=>{
+    const n=B.picks[m.id]||0;
+    return `<div class="fpick${n?" on":""}">
+      ${thumb(m,"fthumb")}
+      <span class="fname">${esc(m.name)}</span>
+      <div class="stepper"><button type="button" data-dec="${m.id}" aria-label="One less ${esc(m.name)}" ${n?"":"disabled"}>−</button><output class="mono">${n}</output><button type="button" data-inc="${m.id}" aria-label="One more ${esc(m.name)}" ${filled()>=cap()?"disabled":""}>+</button></div>
+    </div>`;}).join("");
+  const f=filled(), c=cap(), left=c-f;
+  $("#fill-count").textContent = `· ${f} of ${c}`;
+  $("#box-progress").textContent = left ? `${f} of ${c} picked · ${left} to go` : `Box full. Looking good.`;
+  $("#box-meter").style.setProperty("--p", (f/c*100)+"%");
+  const add=$("#box-add");
+  add.disabled = left>0;
+  add.textContent = left>0 ? `Pick ${left} more` : `Add ${BOXES[B.size].label} box · ${money(BOXES[B.size].price)}`;
+  $("#box-fill").disabled = left===0;
+  $("#box-clear").disabled = f===0;
+}
+function bump(id,d){
+  const n=(B.picks[id]||0)+d;
+  if(d>0&&filled()>=cap()) return false;
+  if(n<=0) delete B.picks[id]; else B.picks[id]=n;
+  renderBuilder(); return true;
+}
+$("#builder").addEventListener("click",e=>{
+  const s=e.target.closest("[data-size]"), inc=e.target.closest("[data-inc]"), dec=e.target.closest("[data-dec]"), take=e.target.closest("[data-take]");
+  if(s){
+    B.size=+s.dataset.size;
+    let over=filled()-cap();                       /* shrink: trim from the last flavors */
+    for(const m of [...MENU].reverse()){ while(over>0&&B.picks[m.id]){ bump(m.id,-1); over--; } }
+    renderBuilder();
+  }
+  if(inc) bump(inc.dataset.inc,1);
+  if(dec) bump(dec.dataset.dec,-1);
+  if(take) bump(take.dataset.take,-1);
+});
+$("#box-fill").onclick=()=>{                       /* fill remaining slots round-robin, starting with flavors already picked */
+  const pool = MENU.filter(m=>B.picks[m.id]).length ? MENU.filter(m=>B.picks[m.id]) : MENU;
+  let i=0; while(filled()<cap()){ const m=pool[i++%pool.length]; B.picks[m.id]=(B.picks[m.id]||0)+1; }
+  renderBuilder();
+};
+$("#box-clear").onclick=()=>{B.picks={};renderBuilder();};
+$("#box-add").onclick=()=>{
+  if(filled()!==cap()) return;
+  cart.push({type:"box", size:B.size, flavors:{...B.picks}, qty:1});
+  save(); renderCart();
+  B.picks={}; renderBuilder();
+  toast(`${BOXES[cart[cart.length-1].size].label} box added`);
+};
+
+/* ---------- Flavor cards ---------- */
 function renderMenu(){
   $("#grid").innerHTML = MENU.map(m=>`
     <article class="card" data-id="${m.id}">
@@ -387,56 +537,71 @@ function renderMenu(){
         <h3>${esc(m.name)}</h3>
         <p class="desc">${esc(m.desc)}</p>
         <p class="contains"><b>Contains:</b> ${esc(m.contains)}</p>
-        <div class="sizes" role="group" aria-label="Size for ${esc(m.name)}">
-          ${SIZES.map((s,i)=>`<button type="button" class="size" data-i="${i}" aria-pressed="${i===picked[m.id].size}"><span>${s.label}</span><strong>${money(s.price)}</strong></button>`).join("")}
-        </div>
-        <div class="add">
-          <div class="stepper"><button type="button" data-q="-1" aria-label="Fewer">−</button><output aria-live="polite">1</output><button type="button" data-q="1" aria-label="More">+</button></div>
-          <button type="button" class="btn btn-main add-btn">Add ${money(SIZES[picked[m.id].size].price)}</button>
+        <div class="card-actions">
+          <button type="button" class="btn btn-ghost to-box">+ Add to box</button>
+          <button type="button" class="btn btn-main add-single">Single ${money(SINGLE_PRICE)}</button>
         </div>
       </div>
     </article>`).join("");
 }
 $("#grid").addEventListener("click",e=>{
   const card=e.target.closest(".card"); if(!card) return;
-  const m=MENU.find(x=>x.id===card.dataset.id), p=picked[m.id];
-  const sz=e.target.closest(".size"), q=e.target.closest("[data-q]"), add=e.target.closest(".add-btn");
-  if(sz){p.size=+sz.dataset.i;card.querySelectorAll(".size").forEach(b=>b.setAttribute("aria-pressed",b===sz));}
-  if(q){p.qty=Math.min(12,Math.max(1,p.qty+ +q.dataset.q));card.querySelector("output").textContent=p.qty;}
-  if(sz||q){card.querySelector(".add-btn").textContent="Add "+money(SIZES[p.size].price*p.qty);}
-  if(add){addToCart(m.id,p.size,p.qty);const b=add;b.textContent="Added ✓";setTimeout(()=>b.textContent="Add "+money(SIZES[p.size].price*p.qty),1200);}
+  const id=card.dataset.id, m=flavor(id);
+  if(e.target.closest(".add-single")){
+    const ex=cart.find(l=>l.type==="single"&&l.id===id);
+    if(ex) ex.qty=Math.min(24,ex.qty+1); else cart.push({type:"single",id,qty:1});
+    save(); renderCart(); toast(`1 ${m.name} added`);
+  }
+  if(e.target.closest(".to-box")){
+    if(bump(id,1)) toast(`${m.name} is in your box · ${filled()} of ${cap()}`, "#build");
+    else toast(`Your ${BOXES[B.size].label} is full. Add it to your order or pick a bigger box.`, "#build");
+  }
 });
+
+/* ---------- Toast ---------- */
+let toastT;
+function toast(msg, href){
+  const t=$("#toast");
+  t.innerHTML = esc(msg) + (href?` <a href="${href}">View box</a>`:"");
+  t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,2600);
+}
 
 /* ---------- Cart ---------- */
 let cart = [];
-try{cart = JSON.parse(localStorage.getItem("st-cart")||"[]").filter(l=>MENU.some(m=>m.id===l.id)&&SIZES[l.size]);}catch(e){cart=[];}
+try{
+  cart = JSON.parse(localStorage.getItem("st-cart2")||"[]").filter(l=>
+    (l.type==="single"&&flavor(l.id)&&l.qty>0) ||
+    (l.type==="box"&&BOXES[l.size]&&Object.keys(l.flavors||{}).every(flavor)&&Object.values(l.flavors).reduce((a,n)=>a+n,0)===BOXES[l.size].count));
+}catch(e){cart=[];}
 let mode = "pickup";
-function save(){try{localStorage.setItem("st-cart",JSON.stringify(cart));}catch(e){}}
-function addToCart(id,size,qty){
-  const ex=cart.find(l=>l.id===id&&l.size===size);
-  if(ex) ex.qty=Math.min(24,ex.qty+qty); else cart.push({id,size,qty});
-  save(); renderCart();
-}
+function save(){try{localStorage.setItem("st-cart2",JSON.stringify(cart));}catch(e){}}
+const linePrice = l => l.type==="box" ? BOXES[l.size].price*l.qty : SINGLE_PRICE*l.qty;
+const boxMix = l => Object.entries(l.flavors).map(([id,n])=>`${n} ${flavor(id).name}`).join(", ");
 function totals(){
-  const sub=cart.reduce((a,l)=>a+SIZES[l.size].price*l.qty,0);
+  const sub=cart.reduce((a,l)=>a+linePrice(l),0);
   const del=mode==="delivery"&&cart.length?CONFIG.deliveryFee:0;
   return {sub,del,total:sub+del};
 }
 function orderText(){
   const T=totals();
   return ["Snackable Treats order","Drop: "+fmtDate(W.drop)+" ("+(mode==="delivery"?"Delivery":"Pickup")+")",
-    ...cart.map(l=>{const m=MENU.find(x=>x.id===l.id);return `${l.qty} x ${m.name}, ${SIZES[l.size].label} = ${money(SIZES[l.size].price*l.qty)}`;}),
+    ...cart.map(l=> l.type==="box"
+      ? `${l.qty} x ${BOXES[l.size].label} box (${boxMix(l)}) = ${money(linePrice(l))}`
+      : `${l.qty} x ${flavor(l.id).name}, single = ${money(linePrice(l))}`),
     T.del?"Delivery: "+money(T.del):"","Total: "+money(T.total),
     "Name: "+$("#c-name").value,"Phone: "+$("#c-phone").value,
     mode==="delivery"?"Address: "+$("#c-address").value:"", $("#c-notes").value?"Notes: "+$("#c-notes").value:""].filter(Boolean).join("\n");
 }
 function renderCart(){
-  const n=cart.reduce((a,l)=>a+l.qty,0);
+  const n=cart.reduce((a,l)=>a+(l.type==="box"?BOXES[l.size].count:1)*l.qty,0);
   $("#cart-count").textContent=n;
   $("#lines").innerHTML = cart.length ? cart.map((l,i)=>{
-    const m=MENU.find(x=>x.id===l.id),s=SIZES[l.size];
-    return `<div class="line"><span class="nm">${esc(m.name)}</span><span class="amt">${money(s.price*l.qty)}</span><span class="meta">${l.qty} × ${s.label} (${s.short} ${s.short==="1"?"cookie":"cookies"})</span><button class="rm" data-rm="${i}" type="button">Remove</button></div>`;
-  }).join("") : `<div class="empty"><p style="font-weight:800">Your box is empty.</p><p>Add a flavor from the lineup to get started.</p></div>`;
+    const name = l.type==="box" ? `${BOXES[l.size].label} box` : flavor(l.id).name;
+    const meta = l.type==="box" ? boxMix(l) : "Single cookie";
+    return `<div class="line"><span class="nm">${esc(name)}</span><span class="amt">${money(linePrice(l))}</span>
+      <span class="meta">${esc(meta)}</span>
+      <div class="lctl"><div class="stepper sm"><button type="button" data-ldec="${i}" aria-label="One less">−</button><output class="mono">${l.qty}</output><button type="button" data-linc="${i}" aria-label="One more">+</button></div></div></div>`;
+  }).join("") : `<div class="empty"><p style="font-weight:800">Nothing here yet.</p><p>Build a box or grab a single to get started.</p></div>`;
   const T=totals();
   $("#t-sub").textContent=money(T.sub);
   $("#t-del-row").hidden=!T.del; $("#t-del").textContent=money(T.del);
@@ -447,11 +612,16 @@ function renderCart(){
 }
 function updateCheckoutState(){
   const a=$("#window-alert"), btn=$("#checkout");
-  if(!W.open){a.hidden=false;a.innerHTML=`The order window is closed right now. It opens Monday and your box will be saved. Next drop: <strong>${fmtDate(W.drop)}</strong>.`;}
+  if(!W.open){a.hidden=false;a.innerHTML=`The order window is closed right now. It opens Monday and your order will be saved. Next drop: <strong>${fmtDate(W.drop)}</strong>.`;}
   else a.hidden=true;
   btn.disabled = !W.open || !cart.length;
 }
-$("#lines").addEventListener("click",e=>{const r=e.target.closest("[data-rm]");if(r){cart.splice(+r.dataset.rm,1);save();renderCart();}});
+$("#lines").addEventListener("click",e=>{
+  const inc=e.target.closest("[data-linc]"), dec=e.target.closest("[data-ldec]");
+  if(inc){const l=cart[+inc.dataset.linc]; l.qty=Math.min(24,l.qty+1);}
+  if(dec){const i=+dec.dataset.ldec; cart[i].qty--; if(cart[i].qty<=0) cart.splice(i,1);}
+  if(inc||dec){save();renderCart();}
+});
 function setMode(m){mode=m;$("#f-pickup").setAttribute("aria-pressed",m==="pickup");$("#f-delivery").setAttribute("aria-pressed",m==="delivery");$("#addr-wrap").hidden=m!=="delivery";renderCart();}
 $("#f-pickup").onclick=()=>setMode("pickup");
 $("#f-delivery").onclick=()=>setMode("delivery");
@@ -472,7 +642,8 @@ $("#checkout").onclick=async()=>{
   const btn=$("#checkout"); btn.disabled=true; btn.textContent="Creating secure checkout…";
   try{
     const r=await fetch(CONFIG.checkoutEndpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
-      items:cart.map(l=>({variationId:MENU.find(m=>m.id===l.id).vars[l.size],qty:l.qty})),
+      singles:cart.filter(l=>l.type==="single").map(l=>({flavor:l.id,qty:l.qty})),
+      boxes:cart.filter(l=>l.type==="box").map(l=>({size:BOXES[l.size].key,qty:l.qty,flavors:l.flavors})),
       fulfillment:mode,name,phone,email:$("#c-email").value.trim(),address:addr,notes:$("#c-notes").value.trim()})});
     const j=await r.json();
     if(!r.ok||!j.url) throw new Error(j.error||"Checkout failed");
@@ -490,7 +661,7 @@ $("#copy").onclick=async()=>{
   setTimeout(()=>b.textContent="Copy order",1800);
 };
 
-renderMenu(); renderCart(); renderWindow();
+renderMenu(); renderBuilder(); renderCart(); renderWindow();
 setInterval(()=>{W.secs>0?($("#cd-clock").textContent=fmtCountdown(--W.secs)):renderWindow();},1000);
 setInterval(renderWindow,60000);
 </script>
