@@ -31,6 +31,8 @@
   --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"DM Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
   --r:22px;
+  --plum:#3D1B40;        /* fixed brand plum, same in both themes */
+  --cream:#FFF6FA;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#1C0D1F;--surface:#2A1530;--ink:#FBEAF4;--muted:#C9AECB;--line:#43284A;
@@ -234,6 +236,50 @@ textarea{min-height:70px;resize:vertical}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:999px;font-weight:800;box-shadow:var(--shadow);max-width:calc(100% - 32px);text-align:center}
 .toast a{color:var(--teal)}
 
+
+/* ---------- Custom orders ---------- */
+.custom{background:color-mix(in srgb,var(--teal) 22%,var(--bg))}
+.custom .wrap{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:32px;padding-block:52px;align-items:start}
+@media (max-width:860px){.custom .wrap{grid-template-columns:minmax(0,1fr)}}
+.custom h2{font-size:clamp(2rem,4.5vw,3rem)}
+.custom .intro{color:var(--muted);margin-top:12px;max-width:42ch}
+.occasions{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.occasions span{background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:800;font-size:.85rem}
+.facts{display:grid;gap:8px;margin-top:20px;font-size:.95rem}
+.facts b{color:var(--magenta)}
+.form-card{background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);padding:22px;display:grid;gap:12px}
+.form-card select{font:inherit;font-size:1rem;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks label{display:flex;align-items:center;gap:6px;font-weight:600;font-size:.88rem;background:var(--bg);border:2px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.checks input{width:auto;margin:0;accent-color:var(--magenta)}
+.checks label:has(input:checked){border-color:var(--magenta)}
+.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:560px){.row3,.row2.stack{grid-template-columns:minmax(0,1fr)}}
+.ok{background:color-mix(in srgb,var(--teal) 35%,var(--surface));border-radius:14px;padding:14px;font-weight:800}
+
+/* ---------- Footer socials ---------- */
+.socials{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.social{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:800;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:8px 14px}
+.social svg{width:18px;height:18px;fill:currentColor}
+.social:hover{border-color:var(--magenta);color:var(--magenta)}
+button.social{font:inherit;font-weight:800;cursor:pointer}
+
+/* ---------- Signup popup ---------- */
+.modal-bg{position:fixed;inset:0;z-index:70;background:rgba(20,6,22,.55);display:grid;place-items:center;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.modal{background:var(--surface);color:var(--ink);border-radius:26px;max-width:440px;width:100%;max-height:100%;overflow:auto;box-shadow:0 30px 60px rgba(0,0,0,.35);position:relative}
+.modal-top{background:var(--plum);color:var(--cream);padding:26px 24px 22px;border-radius:26px 26px 0 0;position:relative;overflow:hidden}
+.modal-top h2{font-size:2rem;color:var(--cream);padding-right:64px}
+.modal-top h2 em{font-style:normal;color:var(--teal)}
+.modal-top p{margin-top:8px;opacity:.9}
+.modal-top .crumbs{position:absolute;right:-18px;top:-18px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 30% 35%,#3B2416 0 10%,transparent 11%),radial-gradient(circle at 62% 55%,#3B2416 0 8%,transparent 9%),radial-gradient(circle at 40% 72%,#3B2416 0 7%,transparent 8%),#D9A066;opacity:.95}
+.modal-body{padding:20px 24px 24px;display:grid;gap:12px}
+.modal .x{position:absolute;top:12px;right:12px;z-index:2;background:var(--surface);color:var(--ink)}
+.perks-list{display:grid;gap:4px;font-size:.92rem;font-weight:600}
+.consent{display:flex;gap:8px;align-items:flex-start;font-weight:600;font-size:.78rem;color:var(--muted);line-height:1.4}
+.consent input{width:auto;margin-top:2px;accent-color:var(--magenta)}
+.nothanks{background:none;border:0;color:var(--muted);font-weight:700;text-decoration:underline;justify-self:center}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -255,6 +301,7 @@ textarea{min-height:70px;resize:vertical}
         <div class="hero-ctas">
           <a class="btn btn-main" href="#build">Build your box</a>
           <a class="btn btn-ghost" href="#menu">See the flavors</a>
+          <a class="btn btn-ghost" href="#custom">Party &amp; custom orders</a>
         </div>
       </div>
 
@@ -303,6 +350,54 @@ textarea{min-height:70px;resize:vertical}
     </div>
   </section>
 
+  <section class="custom gutter" id="custom">
+    <div class="wrap">
+      <div>
+        <p class="kicker">Parties · Weddings · Showers · Office</p>
+        <h2>Custom orders for your big day</h2>
+        <p class="intro">Cookie trays, party favors, dessert tables, and thank-you boxes. Tell us about your event and we'll send you a quote.</p>
+        <div class="occasions"><span>Birthdays</span><span>Weddings</span><span>Baby &amp; bridal showers</span><span>Graduations</span><span>Office &amp; teams</span><span>Holidays</span><span>Church &amp; school events</span></div>
+        <div class="facts">
+          <p><b>Lead time:</b> at least 7 days for most orders, 2 to 3 weeks for weddings and orders of 10+ dozen.</p>
+          <p><b>Pickup or delivery:</b> pickup in Henderson or local delivery in East Texas.</p>
+          <p><b>Next step:</b> we'll reply within 1 to 2 days with pricing and a Square invoice.</p>
+        </div>
+      </div>
+
+      <form class="form-card" id="custom-form" novalidate>
+        <h3 style="font-size:1.5rem">Request a quote</h3>
+        <div class="row2 stack">
+          <label for="co-name">Name<input id="co-name" name="name" autocomplete="name" required></label>
+          <label for="co-phone">Mobile<input id="co-phone" name="phone" type="tel" autocomplete="tel" required></label>
+        </div>
+        <label for="co-email">Email<input id="co-email" name="email" type="email" autocomplete="email" required></label>
+        <div class="row3">
+          <label for="co-type">Event
+            <select id="co-type" name="event_type" required>
+              <option value="">Choose…</option><option>Birthday</option><option>Wedding</option><option>Baby or bridal shower</option><option>Graduation</option><option>Office or team</option><option>Holiday party</option><option>Church or school event</option><option>Other</option>
+            </select>
+          </label>
+          <label for="co-date">Event date<input id="co-date" name="event_date" type="date" required></label>
+          <label for="co-qty">Cookies needed<input id="co-qty" name="quantity" placeholder="e.g. 4 dozen" required></label>
+        </div>
+        <div class="row2 stack">
+          <label for="co-get">Pickup or delivery
+            <select id="co-get" name="pickup_or_delivery"><option>Pickup in Henderson</option><option>Local delivery</option></select>
+          </label>
+          <label for="co-budget">Budget (optional)<input id="co-budget" name="budget" placeholder="e.g. $150"></label>
+        </div>
+        <div>
+          <p style="font-weight:800;font-size:.85rem;margin-bottom:6px">Flavors you're thinking about</p>
+          <div class="checks"><label><input type="checkbox" name="flavors" value="Salted Caramel"> Salted Caramel</label><label><input type="checkbox" name="flavors" value="Toffee Choc Chip"> Toffee Choc Chip</label><label><input type="checkbox" name="flavors" value="Oatmeal Creme Pie"> Oatmeal Creme Pie</label><label><input type="checkbox" name="flavors" value="Peanut Butter Sandwich"> Peanut Butter Sandwich</label><label><input type="checkbox" name="flavors" value="Honey Butter Cornbread"> Honey Butter Cornbread</label><label><input type="checkbox" name="flavors" value="Red Velvet Cake"> Red Velvet Cake</label><label><input type="checkbox" name="flavors" value="Surprise me"> Surprise me</label></div>
+        </div>
+        <label for="co-notes">Theme, colors, packaging, or allergies<textarea id="co-notes" name="details" placeholder="Pink and gold baby shower, individually wrapped favors with tags…"></textarea></label>
+        <p class="err" id="co-err" hidden></p>
+        <div class="ok" id="co-ok" hidden></div>
+        <button class="btn btn-main" type="submit" id="co-submit">Send my request</button>
+      </form>
+    </div>
+  </section>
+
   <section class="info gutter" id="how">
     <div class="wrap">
       <div><h3>Mon to Thu: order</h3><p>The window opens Monday and closes Thursday at 11:59 pm. Pay securely with Square.</p></div>
@@ -313,12 +408,39 @@ textarea{min-height:70px;resize:vertical}
 </main>
 <div class="toast" id="toast" role="status" hidden></div>
 
+<div class="modal-bg" id="signup" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="su-title">
+    <button type="button" class="x" id="su-close" aria-label="Close">×</button>
+    <div class="modal-top">
+      <div class="crumbs" aria-hidden="true"></div>
+      <h2 id="su-title">Be first in line for <em>the next drop.</em></h2>
+      <p>New flavors, the markets we're at, and order window reminders. No spam, just cookies.</p>
+    </div>
+    <form class="modal-body" id="su-form" novalidate>
+      <div class="perks-list"><span>🍪 New flavor drops before anyone else</span><span>📍 Which East Texas markets and events we're at</span><span>⏰ A heads-up before Thursday's cutoff</span></div>
+      <label for="su-email">Email<input id="su-email" name="email" type="email" autocomplete="email" placeholder="you@email.com"></label>
+      <label for="su-phone">Mobile (for texts)<input id="su-phone" name="phone" type="tel" autocomplete="tel" placeholder="(903) 555-0123"></label>
+      <label class="consent" for="su-sms"><input id="su-sms" type="checkbox" name="sms_consent"> Yes, text me updates from Snackable Treats. A few messages a month. Msg &amp; data rates may apply. Reply STOP to opt out anytime.</label>
+      <p class="err" id="su-err" hidden></p>
+      <div class="ok" id="su-ok" hidden></div>
+      <button class="btn btn-main" type="submit" id="su-submit">Sign me up</button>
+      <button type="button" class="nothanks" id="su-no">No thanks, I'll just browse</button>
+    </form>
+  </div>
+</div>
+
+
 <footer class="gutter">
   <div class="wrap">
+    <div class="socials">
+      <a class="social" href="https://www.instagram.com/snackable.treats" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zM12 2c-2.7 0-3 0-4.1.1C4.3 2.3 2.3 4.3 2.1 7.9 2 9 2 9.3 2 12s0 3 .1 4.1c.2 3.6 2.2 5.6 5.8 5.8 1.1.1 1.4.1 4.1.1s3 0 4.1-.1c3.6-.2 5.6-2.2 5.8-5.8.1-1.1.1-1.4.1-4.1s0-3-.1-4.1c-.2-3.6-2.2-5.6-5.8-5.8C15 2 14.7 2 12 2zm0 1.8c2.7 0 3 0 4 .1 2.7.1 4 1.4 4.1 4.1.1 1 .1 1.3.1 4s0 3-.1 4c-.1 2.7-1.4 4-4.1 4.1-1 .1-1.3.1-4 .1s-3 0-4-.1c-2.7-.1-4-1.4-4.1-4.1-.1-1-.1-1.3-.1-4s0-3 .1-4C3.9 5.3 5.2 4 7.9 3.9c1-.1 1.3-.1 4.1-.1z"/></svg>@snackable.treats</a>
+      <a class="social" href="https://www.facebook.com/snackabletreatsbyryan" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>Snackable Treats on Facebook</a>
+      <button type="button" class="social" id="open-signup"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.5-2.5h-5A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.8V3.5a1.5 1.5 0 0 0-3 0v.7A7 7 0 0 0 5 11v5l-2 2v1h18v-1l-2-2z"/></svg>Get drop alerts</button>
+    </div>
+    <p>Questions? Call or text <strong>469-422-4121</strong>.</p>
     <p><strong>Snackable Treats</strong> · Henderson, TX · Texas DSHS Cottage Food Registration #17676</p>
     <p>This food is made in a home kitchen and is not inspected by the Department of State Health Services or a local health department.</p>
     <p>Our kitchen handles wheat, milk, eggs, soy, peanuts, and tree nuts. Allergens are listed on each cookie. Sold direct to customers in Texas only. Local pickup and delivery, no shipping.</p>
-    <p>Questions? Call or text <strong>469-422-4121</strong> · Instagram <strong>@snackable.treats</strong></p>
   </div>
 </footer>
 
@@ -374,7 +496,9 @@ const CONFIG = {
   dropDay: 6,                   // Saturday
   deliveryFee: 5,               // dollars; set 0 for free delivery
   checkoutEndpoint: "https://snackable-checkout.ryan-davis-eb7.workers.dev",         // paste your Cloudflare Worker URL here, e.g. "https://snackable-checkout.yourname.workers.dev"
-  imageBase: "images/"          // folder holding the cookie photos
+  imageBase: "images/",         // folder holding the cookie photos
+  web3formsKey: "0c8446ee-4b37-4541-a6dd-f36fadf14e9c",             // free key from web3forms.com; emails form submissions to you
+  popupDelaySeconds: 6          // how long before the sign-up pop-up appears
 };
 const SIZES = [
   {key:"single", label:"Single", short:"1", price:5},
@@ -667,6 +791,92 @@ $("#copy").onclick=async()=>{
   catch(e){const r=document.createRange();r.selectNodeContents($("#summary"));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected. Copy it now";}
   setTimeout(()=>b.textContent="Copy order",1800);
 };
+
+
+/* ---------- Form helpers ---------- */
+async function sendForm(subject, fields){
+  /* Emails you the submission through Web3Forms (if a key is set) */
+  if(!CONFIG.web3formsKey) return false;
+  const r = await fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},
+    body:JSON.stringify({access_key:CONFIG.web3formsKey,subject,from_name:"Snackable Treats website",...fields})});
+  const j = await r.json().catch(()=>({}));
+  if(!j.success) throw new Error("email");
+  return true;
+}
+async function saveToSquare(path, fields){
+  /* Adds the person to your Square customer list through the checkout worker */
+  if(!CONFIG.checkoutEndpoint) return false;
+  const r = await fetch(CONFIG.checkoutEndpoint.replace(/\/$/,"")+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(fields)});
+  if(!r.ok) throw new Error("square");
+  return true;
+}
+const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+const phoneDigits = v => v.replace(/\D/g,"");
+
+/* ---------- Custom order form ---------- */
+(()=>{
+  const f=$("#custom-form"), d=$("#co-date");
+  const min=new Date(); min.setDate(min.getDate()+7); d.min=min.toISOString().slice(0,10);
+  f.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const err=$("#co-err"), ok=$("#co-ok"), btn=$("#co-submit"); err.hidden=true;
+    const v=id=>$(id).value.trim();
+    const flavors=[...f.querySelectorAll('input[name=flavors]:checked')].map(x=>x.value).join(", ");
+    if(!v("#co-name")||phoneDigits(v("#co-phone")).length<10||!validEmail(v("#co-email"))){err.textContent="Add your name, a 10-digit mobile number, and a valid email so we can send your quote.";err.hidden=false;return;}
+    if(!v("#co-type")||!v("#co-date")||!v("#co-qty")){err.textContent="Tell us the event type, date, and about how many cookies you need.";err.hidden=false;return;}
+    if(v("#co-date")<d.min){err.textContent="Custom orders need at least 7 days. For something sooner, call or text 469-422-4121 and we'll see what we can do.";err.hidden=false;return;}
+    const fields={name:v("#co-name"),phone:v("#co-phone"),email:v("#co-email"),event_type:v("#co-type"),event_date:v("#co-date"),quantity:v("#co-qty"),
+      pickup_or_delivery:v("#co-get"),budget:v("#co-budget"),flavors:flavors||"Not sure yet",details:v("#co-notes")};
+    btn.disabled=true; btn.textContent="Sending…";
+    try{
+      const emailed = await sendForm(`Custom order request: ${fields.event_type}, ${fields.event_date}`, fields);
+      await saveToSquare("/lead", {...fields, kind:"custom"}).catch(()=>{});
+      if(!emailed) throw new Error("nokey");
+      f.reset(); ok.textContent=`Thanks, ${fields.name.split(" ")[0]}! We got your request and will reply within 1 to 2 days with a quote.`; ok.hidden=false;
+    }catch(x){
+      const sum=Object.entries(fields).map(([k,val])=>`${k.replace(/_/g," ")}: ${val}`).join("\n");
+      err.innerHTML=`That didn't send. Please text or email your request to <strong>469-422-4121</strong> or <strong>ryan.davis@snackablefood.com</strong>.`;
+      err.hidden=false; console.log(sum);
+    }finally{btn.disabled=false;btn.textContent="Send my request";}
+  });
+})();
+
+/* ---------- Sign-up pop-up ---------- */
+(()=>{
+  const bg=$("#signup"), KEY="st-signup";
+  let last=null; try{last=JSON.parse(localStorage.getItem(KEY)||"null");}catch(e){}
+  const remember=state=>{try{localStorage.setItem(KEY,JSON.stringify({state,at:Date.now()}));}catch(e){}};
+  const open=()=>{bg.hidden=false;$("#su-email").focus();};
+  const close=(state)=>{bg.hidden=true; if(state) remember(state);};
+  const snoozed = last && (last.state==="joined" || Date.now()-last.at < 14*864e5);
+  if(!snoozed && !/[?&]thanks=1/.test(location.search)) setTimeout(()=>{ if(bg.hidden) open(); }, (CONFIG.popupDelaySeconds||6)*1000);
+  $("#open-signup").onclick=open;
+  $("#su-close").onclick=()=>close("dismissed");
+  $("#su-no").onclick=()=>close("dismissed");
+  bg.addEventListener("click",e=>{if(e.target===bg)close("dismissed");});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!bg.hidden)close("dismissed");});
+  $("#su-form").addEventListener("submit",async e=>{
+    e.preventDefault();
+    const err=$("#su-err"), ok=$("#su-ok"), btn=$("#su-submit"); err.hidden=true;
+    const email=$("#su-email").value.trim(), phone=$("#su-phone").value.trim(), sms=$("#su-sms").checked;
+    if(!email&&!phone){err.textContent="Add an email, a mobile number, or both.";err.hidden=false;return;}
+    if(email&&!validEmail(email)){err.textContent="That email doesn't look right. Check it and try again.";err.hidden=false;return;}
+    if(phone&&phoneDigits(phone).length<10){err.textContent="Enter a 10-digit mobile number.";err.hidden=false;return;}
+    if(phone&&!sms){err.textContent="Check the box to say it's OK to text you, or leave the mobile number blank.";err.hidden=false;return;}
+    const fields={email,phone,sms_consent:sms?"yes":"no",signed_up:new Date().toLocaleString("en-US",{timeZone:CONFIG.timeZone})};
+    btn.disabled=true; btn.textContent="Signing you up…";
+    try{
+      const results = await Promise.allSettled([saveToSquare("/signup",fields), sendForm("New drop alerts sign-up", fields)]);
+      if(!results.some(r=>r.status==="fulfilled"&&r.value)) throw new Error("none");
+      remember("joined");
+      $("#su-form").querySelectorAll("label,.perks-list,#su-submit,#su-no").forEach(el=>el.hidden=true);
+      ok.textContent="You're on the list! Watch for news about the next drop."; ok.hidden=false;
+      setTimeout(()=>close(),2600);
+    }catch(x){
+      err.textContent="That didn't go through. Try again in a minute, or follow us on Instagram @snackable.treats.";err.hidden=false;
+    }finally{btn.disabled=false;btn.textContent="Sign me up";}
+  });
+})();
 
 if(/[?&]thanks=1/.test(location.search)){cart=[];save();}
 renderMenu(); renderBuilder(); renderCart(); renderWindow();
