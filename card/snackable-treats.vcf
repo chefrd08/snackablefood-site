@@ -1,0 +1,13 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Davis;Ryan;;;
+FN:Ryan Davis
+ORG:Snackable Treats
+TITLE:Chef and Owner
+TEL;TYPE=CELL,VOICE:+14694224121
+EMAIL;TYPE=INTERNET,WORK:ryan.davis@snackablefood.com
+URL:https://www.snackablefood.com
+X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/snackable.treatsbiz
+X-SOCIALPROFILE;TYPE=facebook:https://www.facebook.com/snackabletreatsbyryan
+NOTE:Small-batch cookies baked in East Texas. Pre-orders Monday to Thursday\, Saturday pickup or local delivery.
+END:VCARD
