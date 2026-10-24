@@ -441,6 +441,7 @@ button.social{font:inherit;font-weight:800;cursor:pointer}
     <p><strong>Snackable Treats</strong> · Henderson, TX · Texas DSHS Cottage Food Registration #17676</p>
     <p>This food is made in a home kitchen and is not inspected by the Department of State Health Services or a local health department.</p>
     <p>Our kitchen handles wheat, milk, eggs, soy, peanuts, and tree nuts. Allergens are listed on each cookie. Sold direct to customers in Texas only. Local pickup and delivery, no shipping.</p>
+    <p>We count page visits and button clicks to improve this site. No cookies, no names, nothing sold.</p>
   </div>
 </footer>
 
@@ -883,6 +884,59 @@ renderMenu(); renderBuilder(); renderCart(); renderWindow();
 if(/[?&]thanks=1/.test(location.search)){const t=$("#toast");t.textContent="Order placed! Watch for a text from us about your Saturday drop.";t.hidden=false;setTimeout(()=>t.hidden=true,7000);}
 setInterval(()=>{W.secs>0?($("#cd-clock").textContent=fmtCountdown(--W.secs)):renderWindow();},1000);
 setInterval(renderWindow,60000);
+
+/* ---------- Visit + click counter (no cookies, no names; feeds the CRM "Site Analytics" tab) ---------- */
+(function(){
+  const ep = CONFIG.checkoutEndpoint ? CONFIG.checkoutEndpoint.replace(/\/$/,"") + "/track" : "";
+  let off = false;
+  try{
+    if(/[?&]notrack=1/.test(location.search)) localStorage.setItem("st-notrack","1");   // visit once with ?notrack=1 to stop counting your own visits
+    if(/[?&]notrack=0/.test(location.search)) localStorage.removeItem("st-notrack");
+    off = localStorage.getItem("st-notrack")==="1";
+  }catch(e){}
+  if(!ep || off) return;
+  let sid="", returning="New";
+  try{
+    sid = sessionStorage.getItem("st-sid") || Math.random().toString(36).slice(2,10);
+    sessionStorage.setItem("st-sid", sid);
+    if(localStorage.getItem("st-seen")) returning="Returning"; else localStorage.setItem("st-seen","1");
+  }catch(e){ sid = Math.random().toString(36).slice(2,10); }
+  const q = new URLSearchParams(location.search);
+  let src = q.get("utm_source") || "";
+  if(!src && q.get("fbclid")) src = "facebook";
+  if(!src && document.referrer){ try{ const h=new URL(document.referrer).hostname.replace(/^www\./,""); if(!/snackablefood\.com$/.test(h)) src=h; }catch(e){} }
+  src = (src || "direct").toLowerCase();
+  if(/facebook|fb\.|^m\.facebook|l\.facebook/.test(src)) src="facebook";
+  else if(/instagram/.test(src)) src="instagram";
+  else if(/google/.test(src)) src="google";
+  const base = { sid, src, campaign: q.get("utm_campaign")||"", device: matchMedia("(max-width: 760px)").matches ? "Phone" : "Computer", visitor: returning };
+  function send(event, label){
+    try{
+      const body = JSON.stringify(Object.assign({ event, label: label||"", page: location.pathname + (location.hash||"") }, base));
+      if(navigator.sendBeacon) navigator.sendBeacon(ep, new Blob([body], {type:"text/plain"}));
+      else fetch(ep, {method:"POST", body, keepalive:true, mode:"no-cors"});
+    }catch(e){}
+  }
+  send(/[?&]thanks=1/.test(location.search) ? "Order completed" : "Page view");
+  const TRACK = [
+    ["#open-cart","Opened cart"], ["#box-add","Added a box"], ["#checkout","Clicked checkout"], ["#paylink","Clicked Pay with Square"],
+    ["#co-submit","Sent custom order form"], ["#open-signup","Opened drop alerts"], ["#su-submit","Submitted sign-up"],
+    ["#f-delivery","Chose delivery"], ['a[href*="instagram.com"]',"Clicked Instagram"], ['a[href*="facebook.com"]',"Clicked Facebook"],
+    ['a[href^="tel:"]',"Clicked call"], ['a[href^="sms:"]',"Clicked text"], ['a[href^="mailto:"]',"Clicked email"]
+  ];
+  document.addEventListener("click", e=>{
+    const t = e.target;
+    const card = t.closest && t.closest(".card");
+    if(card && t.closest(".add-single")) return send("Click", "Added single: " + card.dataset.id);
+    if(card && t.closest(".to-box")) return send("Click", "Added to box: " + card.dataset.id);
+    for(const [sel,label] of TRACK){ if(t.closest && t.closest(sel)) return send("Click", label); }
+  }, true);
+  const seen = {};
+  if("IntersectionObserver" in window){
+    const io = new IntersectionObserver(es=>es.forEach(en=>{ const id=en.target.id; if(en.isIntersecting && !seen[id]){ seen[id]=1; send("Scrolled to", id); } }), {threshold:0.4});
+    ["build","menu","custom"].forEach(id=>{ const el=document.getElementById(id); if(el) io.observe(el); });
+  }
+})();
 </script>
 
 </body>
