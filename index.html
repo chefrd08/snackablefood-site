@@ -55,6 +55,15 @@ button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:8px}
 .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
 
+/* ---------- Thanksgiving promo strip ---------- */
+.promo{background:var(--orange);color:var(--orange-ink)}
+.promo .wrap{display:flex;align-items:center;justify-content:center;gap:6px 16px;flex-wrap:wrap;padding-block:10px;text-align:center;font-weight:800}
+.promo p{font-size:1rem;line-height:1.3}
+.promo .pt{font-family:var(--display);font-size:1.15rem;letter-spacing:.01em}
+.promo small{display:block;font-weight:600;font-size:.8rem;opacity:.9}
+.promo-btn{background:var(--ink);color:var(--bg);border:0;border-radius:999px;padding:9px 18px;font-weight:800;font-size:.95rem;cursor:pointer;white-space:nowrap}
+.promo-btn:hover{filter:brightness(1.15)}
+
 /* ---------- Top bar ---------- */
 .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--ink);color:var(--bg)}
 .bar .wrap{display:flex;align-items:center;gap:14px;min-height:64px;padding-block:8px}
@@ -283,6 +292,13 @@ button.social{font:inherit;font-weight:800;cursor:pointer}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
+<div class="promo gutter" id="promo">
+  <div class="wrap">
+    <p><span class="pt">Thanksgiving Thank-You Box</span> &nbsp;6 cookies, one of each flavor. <strong>$20.</strong><small>Order Monday to Thursday. Pickup or delivery Saturday in Henderson.</small></p>
+    <button type="button" class="promo-btn js-thanks">Get the box</button>
+  </div>
+</div>
+
 <header class="bar gutter">
   <div class="wrap">
     <a class="logo" href="#top">Snackable<span>Treats</span></a>
@@ -299,7 +315,8 @@ button.social{font:inherit;font-weight:800;cursor:pointer}
         <h1>Order by Thursday. <em>Cookies on Saturday.</em></h1>
         <p class="lead">Six flavors. Build a box of 3, 6, or 12 and mix them however you like. Pick up in Henderson or get it delivered Saturday.</p>
         <div class="hero-ctas">
-          <a class="btn btn-main" href="#build">Build your box</a>
+          <button type="button" class="btn btn-main js-thanks">Thanksgiving box $20</button>
+          <a class="btn btn-ghost" href="#build">Build your box</a>
           <a class="btn btn-ghost" href="#menu">See the flavors</a>
           <a class="btn btn-ghost" href="#custom">Party &amp; custom orders</a>
         </div>
@@ -585,7 +602,8 @@ function renderWindow(){
 const BOXES = [
   {key:"three", label:"3-pack",     count:3,  price:12, vi:1},
   {key:"half",  label:"Half dozen", count:6,  price:25, vi:2},
-  {key:"dozen", label:"Dozen",      count:12, price:35, vi:3}
+  {key:"dozen", label:"Dozen",      count:12, price:35, vi:3},
+  {key:"thanks", label:"Thanksgiving Thank-You", count:6, price:20, vi:2}   /* promo box, not shown in the builder */
 ];
 const SINGLE_PRICE = 5;
 const flavor = id => MENU.find(m=>m.id===id);
@@ -597,7 +615,7 @@ const filled = () => Object.values(B.picks).reduce((a,n)=>a+n,0);
 const cap = () => BOXES[B.size].count;
 
 function renderBuilder(){
-  $("#box-sizes").innerHTML = BOXES.map((b,i)=>`
+  $("#box-sizes").innerHTML = BOXES.map((b,i)=> b.key==="thanks" ? "" : `
     <button type="button" class="bsize" data-size="${i}" aria-pressed="${i===B.size}">
       <span class="bcount mono">${b.count}</span><span class="blabel">${b.label}</span><strong class="mono">${money(b.price)}</strong>
       <small>${money(+(b.price/b.count).toFixed(2))} a cookie</small>
@@ -760,7 +778,12 @@ $("#f-delivery").onclick=()=>setMode("delivery");
 
 function openCart(){$("#drawer").classList.add("on");$("#scrim").classList.add("on");$("#drawer").setAttribute("aria-hidden","false");$("#close-cart").focus();}
 function closeCart(){$("#drawer").classList.remove("on");$("#scrim").classList.remove("on");$("#drawer").setAttribute("aria-hidden","true");}
-$("#open-cart").onclick=openCart; $("#close-cart").onclick=closeCart; $("#scrim").onclick=closeCart;
+$("#open-cart").onclick=openCart;
+document.querySelectorAll(".js-thanks").forEach(b=>b.addEventListener("click",()=>{
+  const size=BOXES.findIndex(x=>x.key==="thanks");
+  cart.push({type:"box", size, flavors:Object.fromEntries(MENU.map(m=>[m.id,1])), qty:1});
+  save(); renderCart(); toast("Thanksgiving Thank-You box added"); openCart();
+})); $("#close-cart").onclick=closeCart; $("#scrim").onclick=closeCart;
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeCart();});
 
 $("#checkout").onclick=async()=>{
